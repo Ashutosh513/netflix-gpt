@@ -7,11 +7,11 @@ import { RouterProvider } from 'react-router-dom';
 const Body = () => {
     const appRouter = createBrowserRouter([
         {
-            path: '/in/',
+            path: '/',
             element: <Login />,
         },
         {
-            path: '/in/browse',
+            path: '/browse',
             element: <Browse />,
         },
     ]);
