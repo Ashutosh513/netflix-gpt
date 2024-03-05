@@ -32,11 +32,6 @@ const Login = () => {
 
         window.addEventListener('click', handleClickOutside);
         inputRef.current.addEventListener('click', handleClickInside);
-
-        return () => {
-            window.removeEventListener('click', handleClickOutside);
-            inputRef.current.removeEventListener('click', handleClickInside);
-        };
     }, []);
 
     return (
