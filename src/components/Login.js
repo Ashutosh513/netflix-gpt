@@ -7,7 +7,12 @@ const Login = () => {
     let knowMore = false;
     let showBtn;
     let [showOrHidePassword, setShowOrHidePassword] = useState('SHOW');
+    const [isSignInForm, setIsSignInForm] = useState(true);
     const inputRef = useRef(null);
+
+    const toggleSignInForm = () => {
+        setIsSignInForm(!isSignInForm);
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -39,7 +44,21 @@ const Login = () => {
             <Header />
             <div>
                 <form className='absolute w-[400px] p-14 mt-24 text-white bg-opacity-80 rounded-md bg-black mx-auto left-0 right-0 text-basic'>
-                    <h1 className='text-3xl font-medium mb-8'>Sign In</h1>
+                    <h1 className='text-3xl font-medium mb-8'>
+                        Sign {isSignInForm ? 'In' : 'Up'}
+                    </h1>
+                    <input
+                        type='text'
+                        placeholder='Username'
+                        className={`py-3 px-4 mb-4 w-full rounded-sm border-none bg-gray-600 text-black outline-none ${
+                            isSignInForm ? 'hidden' : ''
+                        }`}
+                        onChange={(e) => {
+                            e.target.value.length > 0
+                                ? e.target.classList.add('bg-slate-200')
+                                : e.target.classList.remove('bg-slate-200');
+                        }}
+                    />
                     <input
                         type='text'
                         placeholder='Email or phone number'
@@ -83,7 +102,7 @@ const Login = () => {
                         </div>
                     </div>
                     <button className='p-3 mt-5 w-full rounded-md border-none bg-red-600 text-white font-semibold'>
-                        Sign In
+                        Sign {isSignInForm ? 'In' : 'Up'}
                     </button>
                     <label className='flex items-center my-2 text-gray-300'>
                         <input type='checkbox' />
@@ -100,9 +119,11 @@ const Login = () => {
                     <div className='mt-14'>
                         <div className='text-gray-500 text-sm '>
                             New to Netflix?{' '}
-                            <span className='text-white cursor-pointer hover:underline font-semibold'>
-                                {' '}
-                                Sign up now
+                            <span
+                                className='text-white cursor-pointer hover:underline font-semibold'
+                                onClick={toggleSignInForm}
+                            >
+                                Sign {isSignInForm ? 'Up' : 'In'} now
                             </span>
                             .
                         </div>
