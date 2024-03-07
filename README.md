@@ -2,8 +2,11 @@
 
 -   Create React App
 -   Configured TailwindCSS
+-   Routing of App
 -   Header
 -   Login Form
+-   Sign Up Form
+-   Form Validation
 
 # Features
 
@@ -21,5 +24,5 @@
     -   Search Bar
     -   Movie Suggestions
 
-bahut nazdeek se dekha hai iss duniya ko 
-tabhi sabse dur jaake baitha hoon 
+bahut nazdeek se dekha hai iss duniya ko
+tabhi sabse dur jaake baitha hoon
