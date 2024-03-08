@@ -27,6 +27,12 @@ const Login = () => {
 
     const toggleSignInForm = () => {
         setIsSignInForm(!isSignInForm);
+        fullName.current.value = '';
+        email.current.value = '';
+        password.current.value = '';
+        fullName.current.classList.remove('bg-slate-200');
+        email.current.classList.remove('bg-slate-200');
+        password.current.classList.remove('bg-slate-200');
     };
 
     useEffect(() => {
