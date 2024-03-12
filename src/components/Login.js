@@ -1,11 +1,23 @@
 import React from 'react';
 import Header from './Header';
-import { useRef, useEffect, useState } from 'react';
 import Footer from './Footer';
-import { checkValidData } from '../utils/validate';
 import FormDisclaimer from './FormDisclaimer';
+import { useRef, useEffect, useState } from 'react';
+import { checkValidData } from '../utils/validate';
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { auth } from '../utils/firebase';
+import { useNavigate } from 'react-router-dom';
+import { updateProfile } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const Login = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [showOrHidePassword, setShowOrHidePassword] = useState('SHOW');
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -23,10 +35,73 @@ const Login = () => {
             password.current.value
         );
         setErrorMessage(message);
+
+        if (message) return;
+
+        if (isSignInForm) {
+            //  Sign In
+            signInWithEmailAndPassword(
+                auth,
+                email.current.value,
+                password.current.value
+            )
+                .then((userCredential) => {
+                    navigate('/browse');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(
+                        errorCode === 'auth/invalid-credential'
+                            ? 'Wrong Email or Password'
+                            : errorMessage
+                    );
+                });
+        } else {
+            // Sign Up
+            createUserWithEmailAndPassword(
+                auth,
+                email.current.value,
+                password.current.value
+            )
+                .then((userCredential) => {
+                    updateProfile(auth.currentUser, {
+                        displayName: fullName.current.value,
+                    })
+                        .then(() => {
+                            const { uid, email, displayName } =
+                                auth.currentUser;
+                            dispatch(
+                                addUser({
+                                    uid: uid,
+                                    email: email,
+                                    displayName: displayName,
+                                })
+                            );
+                            navigate('/browse');
+                        })
+                        .catch((error) => {
+                            // An error occurred
+                            // ...
+                        });
+                    navigate('/browse');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(
+                        errorCode === 'auth/email-already-in-use'
+                            ? 'Email already in use. Please sign in or use a different email.'
+                            : errorMessage
+                    );
+                });
+        }
     };
 
     const toggleSignInForm = () => {
+        showBtn?.classList.add('hidden');
         setIsSignInForm(!isSignInForm);
+        setErrorMessage('');
         fullName.current.value = '';
         email.current.value = '';
         password.current.value = '';
@@ -36,6 +111,8 @@ const Login = () => {
     };
 
     useEffect(() => {
+        setShowOrHidePassword('SHOW');
+
         const handleClickOutside = (event) => {
             if (
                 password.current &&
@@ -111,11 +188,13 @@ const Login = () => {
                                 e.target.value.length > 0
                                     ? e.target.classList.add('bg-slate-200')
                                     : e.target.classList.remove('bg-slate-200');
+                                e.target.value.length > 0
+                                    ? showBtn?.classList.remove('hidden')
+                                    : showBtn?.classList.add('hidden');
                             }}
                             className='py-3 px-4 mb-4 w-full rounded-l-sm rounded-r-sm border-none bg-gray-600 text-black outline-none'
                             onClick={(e) => {
                                 showBtn = e.target.nextElementSibling;
-                                showBtn.classList.remove('hidden');
                             }}
                         />
                         <div
