@@ -44,7 +44,7 @@ const Header = () => {
 
     return (
         <div
-            className={`absolute px-6 py-2 z-10 w-full  flex justify-between  bg-gradient-to-b from-black`}
+            className={`absolute pl-6  py-2 z-10 w-full  flex justify-between  bg-gradient-to-b from-black`}
         >
             <img
                 className={`w-48 ${user ? 'cursor-pointer' : ''}`}
@@ -54,7 +54,7 @@ const Header = () => {
             />
 
             {user && (
-                <div className='flex items-center text-white'>
+                <div className='flex items-center justify-end text-white'>
                     <p>Welcome, {auth.currentUser.displayName}!</p>
                     <button
                         className='bg-red-700 text-white h-12 px-4 py-2

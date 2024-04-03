@@ -28,6 +28,7 @@
 -   Fetch Data for Trailer Video
 -   Update Store with Trailer Video Data
 -   Embedded the Youtube video and make it autoplay and mute
+-   Build Secondary Component
 
 # Features
 
