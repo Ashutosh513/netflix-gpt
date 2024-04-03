@@ -2,27 +2,26 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import FormDisclaimer from './FormDisclaimer';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { checkValidData } from '../utils/validate';
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { auth } from '../utils/firebase';
-import { useNavigate } from 'react-router-dom';
 import { updateProfile } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { LOGIN_BG } from '../utils/constants';
 
 const Login = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const [showOrHidePassword, setShowOrHidePassword] = useState('SHOW');
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
     let knowMore = false;
-    let showBtn;
+    let showBtn = useRef('SHOW');
     const fullName = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
@@ -45,9 +44,7 @@ const Login = () => {
                 email.current.value,
                 password.current.value
             )
-                .then((userCredential) => {
-                    navigate('/browse');
-                })
+                .then((userCredential) => {})
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
@@ -65,7 +62,8 @@ const Login = () => {
                 password.current.value
             )
                 .then((userCredential) => {
-                    updateProfile(auth.currentUser, {
+                    const user = userCredential.user;
+                    updateProfile(user, {
                         displayName: fullName.current.value,
                     })
                         .then(() => {
@@ -78,13 +76,10 @@ const Login = () => {
                                     displayName: displayName,
                                 })
                             );
-                            navigate('/browse');
                         })
                         .catch((error) => {
-                            // An error occurred
-                            // ...
+                            setErrorMessage(error.message);
                         });
-                    navigate('/browse');
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -99,7 +94,8 @@ const Login = () => {
     };
 
     const toggleSignInForm = () => {
-        showBtn?.classList.add('hidden');
+        showBtn.current.classList.add('hidden');
+        setShowOrHidePassword('SHOW');
         setIsSignInForm(!isSignInForm);
         setErrorMessage('');
         fullName.current.value = '';
@@ -110,39 +106,9 @@ const Login = () => {
         password.current.classList.remove('bg-slate-200');
     };
 
-    useEffect(() => {
-        setShowOrHidePassword('SHOW');
-
-        const handleClickOutside = (event) => {
-            if (
-                password.current &&
-                !password.current.contains(event.target) &&
-                event.target !== showBtn
-            ) {
-                showBtn?.classList.add('hidden');
-                password.current.type = 'password';
-                password.current.classList.add('rounded-r-sm');
-                setShowOrHidePassword('SHOW');
-            }
-        };
-
-        const handleClickInside = (event) => {
-            if (password.current && password.current.contains(event.target)) {
-                password.current.classList.remove('rounded-r-sm');
-                showBtn?.classList.remove('hidden');
-            }
-        };
-
-        window.addEventListener('click', handleClickOutside);
-        password.current.addEventListener('click', handleClickInside);
-    }, []);
-
     return (
         <div>
-            <Header
-                isSignInForm={isSignInForm}
-                setIsSignInForm={setIsSignInForm}
-            />
+            <Header />
             <div>
                 <form
                     onSubmit={(e) => e.preventDefault()}
@@ -188,9 +154,16 @@ const Login = () => {
                                 e.target.value.length > 0
                                     ? e.target.classList.add('bg-slate-200')
                                     : e.target.classList.remove('bg-slate-200');
-                                e.target.value.length > 0
-                                    ? showBtn?.classList.remove('hidden')
-                                    : showBtn?.classList.add('hidden');
+
+                                if (showBtn) {
+                                    e.target?.value?.length > 0
+                                        ? showBtn.current?.classList.remove(
+                                              'hidden'
+                                          )
+                                        : showBtn.current?.classList.add(
+                                              'hidden'
+                                          );
+                                }
                             }}
                             className='py-3 px-4 mb-4 w-full rounded-l-sm rounded-r-sm border-none bg-gray-600 text-black outline-none'
                             onClick={(e) => {
@@ -198,6 +171,7 @@ const Login = () => {
                             }}
                         />
                         <div
+                            ref={showBtn}
                             className='h-12 w-20 text-sm text-gray-300 bg-gray-600 rounded-r-sm cursor-pointer font-thin flex justify-center items-center hidden'
                             onClick={() => {
                                 showOrHidePassword === 'SHOW'
@@ -236,11 +210,7 @@ const Login = () => {
                         knowMore={knowMore}
                     />
                 </form>
-                <img
-                    src='https://assets.nflxext.com/ffe/siteui/vlv3/93da5c27-be66-427c-8b72-5cb39d275279/94eb5ad7-10d8-4cca-bf45-ac52e0a052c0/IN-en-20240226-popsignuptwoweeks-perspective_alpha_website_large.jpg'
-                    alt='Movies'
-                    className='object-cover'
-                />
+                <img src={LOGIN_BG} alt='Movies' className='object-cover' />
             </div>
             <Footer />
         </div>
