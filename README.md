@@ -28,7 +28,13 @@
 -   Fetch Data for Trailer Video
 -   Update Store with Trailer Video Data
 -   Embedded the Youtube video and make it autoplay and mute
--   Build Secondary Component
+-   Build Secondary
+-   TDMB Image CDN URL
+-   Build Movie List
+-   Build Movie Card
+-   GPT Search Page
+-   GPT Search Bar
+-   Added Multi-language feature for search bar
 
 # Features
 

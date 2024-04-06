@@ -12,7 +12,7 @@ import { auth } from '../utils/firebase';
 import { updateProfile } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
-import { LOGIN_BG } from '../utils/constants';
+import { MAIN_BG } from '../utils/constants';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -210,7 +210,7 @@ const Login = () => {
                         knowMore={knowMore}
                     />
                 </form>
-                <img src={LOGIN_BG} alt='Movies' className='object-cover' />
+                <img src={MAIN_BG} alt='Movies' className='object-cover' />
             </div>
             <Footer />
         </div>
