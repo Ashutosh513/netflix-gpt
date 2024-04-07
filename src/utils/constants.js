@@ -15,6 +15,11 @@ export const API_OPTIONS = {
     },
 };
 
+<<<<<<< HEAD
 export const API_KEY = 'AIzaSyCTaqVsdP1EYWEk5GXG9Hcsr9YqcUbIs3U';
 
+||||||| parent of bd4684e (Fetch and Display AI result)
+=======
+export const API_KEY = 'AIzaSyCTaqVsdP1EYWEk5GXG9Hcsr9YqcUbIs3U';
+>>>>>>> bd4684e (Fetch and Display AI result)
 // export const CDN_URL = 'https://api.themoviedb.org/3/movie/';
