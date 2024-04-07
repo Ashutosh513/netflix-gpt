@@ -20,3 +20,8 @@ body {
 *::-webkit-scrollbar {
     display: none;
 }
+
+.scrollbar::-webkit-scrollbar {
+    width: 12px;
+    width: 12px;
+}

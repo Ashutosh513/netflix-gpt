@@ -15,4 +15,6 @@ export const API_OPTIONS = {
     },
 };
 
+export const API_KEY = 'AIzaSyCTaqVsdP1EYWEk5GXG9Hcsr9YqcUbIs3U';
+
 // export const CDN_URL = 'https://api.themoviedb.org/3/movie/';
