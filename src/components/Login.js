@@ -121,6 +121,7 @@ const Login = () => {
                         ref={fullName}
                         type='text'
                         placeholder='Full Name'
+                        required
                         className={`py-3 px-4 mb-4 w-full rounded-sm border-none bg-gray-600 text-black outline-none ${
                             isSignInForm ? 'hidden' : ''
                         }`}
@@ -134,6 +135,7 @@ const Login = () => {
                         ref={email}
                         type='text'
                         placeholder='Email or phone number'
+                        required
                         className='py-3 px-4 mb-4 w-full rounded-sm border-none bg-gray-600 text-black outline-none'
                         onChange={(e) => {
                             e.target.value.length > 0
@@ -150,6 +152,7 @@ const Login = () => {
                                     : 'text'
                             }
                             placeholder='Password'
+                            required
                             onChange={(e) => {
                                 e.target.value.length > 0
                                     ? e.target.classList.add('bg-slate-200')

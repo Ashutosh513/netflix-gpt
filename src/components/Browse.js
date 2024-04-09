@@ -8,9 +8,14 @@ import SecondaryContainer from './SecondaryContainer';
 import GPTSearchPage from './GPTSearchPage';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import MovieDetails from './MovieDetails';
+import Footer from './Footer';
 
 const Browse = () => {
     const showGPTSearch = useSelector((store) => store.gpt.showGPTSearch);
+    const showMovieDetails = useSelector(
+        (store) => store.movies.showMovieDetails
+    );
 
     useNowPlayingMovies();
     useUpcomingMovies();
@@ -20,6 +25,9 @@ const Browse = () => {
     useEffect(() => {
         document.body.style.zoom = '100%';
     }, []);
+
+    if (showMovieDetails) document.body.style.overflow = 'hidden';
+    if (!showMovieDetails) document.body.style.overflow = '';
 
     return (
         <div>
@@ -31,8 +39,10 @@ const Browse = () => {
                     <>
                         <MainContainer />
                         <SecondaryContainer />
+                        <Footer />
                     </>
                 )}
+                {showMovieDetails && <MovieDetails />}
             </div>
         </div>
     );

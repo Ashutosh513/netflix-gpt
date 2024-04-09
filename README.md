@@ -35,6 +35,10 @@
 -   GPT Search Page
 -   GPT Search Bar
 -   Added Multi-language feature for search bar
+-   Get Gemini AI Api Key
+-   Get Search API Call
+-   Memoization
+-   Added .env file
 
 # Features
 
