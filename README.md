@@ -39,6 +39,8 @@
 -   Get Search API Call
 -   Memoization
 -   Added .env file
+-   Build Movie Details Card
+-   Build Movie Trailer Card
 
 # Features
 
