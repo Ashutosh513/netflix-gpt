@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const FormDisclaimer = ({ isSignInForm, toggleSignInForm, knowMore }) => {
+const FormDisclaimer = ({ isSignInForm, toggleSignInForm }) => {
+    const [knowMore, setKnowMore] = useState(false);
+
+    const toggleForm = () => {
+        toggleSignInForm();
+        setKnowMore(false);
+    };
+
     return (
         <div className={`${isSignInForm ? 'mt-14' : 'mt-8'}`}>
             <div className='text-gray-500 text-sm '>
                 {isSignInForm ? 'New to Netflix? ' : 'Already registered? '}
                 <span
                     className='text-white cursor-pointer hover:underline font-semibold'
-                    onClick={toggleSignInForm}
+                    onClick={toggleForm}
                 >
                     Sign {isSignInForm ? 'Up' : 'In'} now
                 </span>
@@ -17,18 +24,17 @@ const FormDisclaimer = ({ isSignInForm, toggleSignInForm, knowMore }) => {
                 This page is protected by Google reCAPTCHA to ensure you're not
                 a bot.{' '}
                 <span
-                    className=' text-blue-400 cursor-pointer hover:underline'
-                    onClick={(e) => {
-                        e.target.classList.add('hidden');
-                        e.target.parentNode.nextElementSibling.classList.remove(
-                            'hidden'
-                        );
+                    className={` text-blue-400 cursor-pointer hover:underline ${knowMore ? 'hidden' : ''}`}
+                    onClick={() => {
+                        setKnowMore(true);
                     }}
                 >
                     Learn more.
                 </span>
             </p>
-            <p className={`text-xs text-gray-400 ${knowMore ? '' : 'hidden'}`}>
+            <p
+                className={`text-xs text-gray-400 overflow-y-scroll ${isSignInForm ? 'h-20' : 'h-10'} ${knowMore ? '' : 'hidden'}`}
+            >
                 The information collected by Google reCAPTCHA is subject to the
                 Google{' '}
                 <a

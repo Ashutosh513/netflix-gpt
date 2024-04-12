@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { addMovieDetails, addShowMovieDetails } from '../utils/moviesSlice';
 import { API_OPTIONS } from '../utils/constants';
 
 const MovieCard = ({ movie }) => {
+    const searchPage = useSelector((store) => store.search.showSearchPage);
     const dispatch = useDispatch();
-    const [movieCardClicked, setMovieCardClicked] = useState(false);
-
-    const handleMovieClick = () => {
-        setMovieCardClicked(true);
-    };
 
     const updateMovieDetails = async () => {
         const newDetails = await fetch(
@@ -17,21 +13,19 @@ const MovieCard = ({ movie }) => {
             API_OPTIONS
         );
         const details = await newDetails.json();
+        console.log('details');
         dispatch(addMovieDetails(details));
         dispatch(addShowMovieDetails(true));
-        setMovieCardClicked(false);
     };
 
-    useEffect(() => {
-        if (movieCardClicked) updateMovieDetails();
-    }, [movieCardClicked]);
-
     return (
-        <div className='w-36 mr-6 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-110 cursor-pointer'>
+        <div
+            className={`w-36 rounded-lg shadow-md transition-transform duration-300 ease-in-out transform hover:scale-110 cursor-pointer ${searchPage ? 'mr-8 mb-5' : 'mr-6'}`}
+        >
             <img
                 src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                 alt='movie'
-                onClick={handleMovieClick}
+                onClick={updateMovieDetails}
             />
         </div>
     );

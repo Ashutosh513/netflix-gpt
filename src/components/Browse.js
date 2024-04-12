@@ -10,12 +10,18 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import MovieDetails from './MovieDetails';
 import Footer from './Footer';
+import SearchPage from './SearchPage';
+import useOnlineStatus from '../utils/useOnlineStatus';
+import UserOffline from './UserOffline';
 
 const Browse = () => {
     const showGPTSearch = useSelector((store) => store.gpt.showGPTSearch);
     const showMovieDetails = useSelector(
         (store) => store.movies.showMovieDetails
     );
+    const showSearchPage = useSelector((store) => store.search.showSearchPage);
+
+    const onlineStatus = useOnlineStatus();
 
     useNowPlayingMovies();
     useUpcomingMovies();
@@ -26,8 +32,15 @@ const Browse = () => {
         document.body.style.zoom = '100%';
     }, []);
 
+    if (!onlineStatus) {
+        return <UserOffline />;
+    }
+
     if (showMovieDetails) document.body.style.overflow = 'hidden';
     if (!showMovieDetails) document.body.style.overflow = '';
+
+    if (showSearchPage) document.body.style.overflow = 'hidden';
+    if (!showSearchPage) document.body.style.overflow = '';
 
     return (
         <div>
@@ -43,6 +56,7 @@ const Browse = () => {
                     </>
                 )}
                 {showMovieDetails && <MovieDetails />}
+                {showSearchPage && <SearchPage />}
             </div>
         </div>
     );

@@ -42,7 +42,7 @@ const MovieDetails = () => {
             (video) => video.type === 'Trailer'
         );
         const video = filterData ? filterData[0] : json.results[0];
-        setMovieVideoKey(video.key);
+        setMovieVideoKey(video?.key);
         console.log(movieVideoKey);
     };
 

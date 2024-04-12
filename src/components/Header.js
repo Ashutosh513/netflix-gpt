@@ -10,10 +10,13 @@ import { LOGO } from '../utils/constants';
 import { toggleGPTSearchView } from '../utils/gptSlice';
 import { LANG_ISO } from '../utils/languageConstants';
 import { changeLanguage } from '../utils/languageSlice';
+import search from '../utils/Img/search_icon.png';
+import { showSearchPage } from '../utils/searchMoviesSlice';
 
 const Header = () => {
     const user = useSelector((store) => store.user);
     const showGPTSearch = useSelector((store) => store.gpt.showGPTSearch);
+    const searchPage = useSelector((store) => store.search.showSearchPage);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -47,7 +50,15 @@ const Header = () => {
     }, []);
 
     const handleGPTSearchClick = () => {
-        dispatch(toggleGPTSearchView());
+        if (showGPTSearch) {
+            dispatch(toggleGPTSearchView(false));
+        }
+
+        if (!showGPTSearch) {
+            dispatch(toggleGPTSearchView(true));
+        }
+
+        dispatch(showSearchPage(false));
     };
 
     const handleLanguageChange = (e) => {
@@ -55,15 +66,29 @@ const Header = () => {
         dispatch(changeLanguage(newLang));
     };
 
+    const handleSearchBtn = () => {
+        if (searchPage) {
+            dispatch(showSearchPage(false));
+        } else {
+            dispatch(showSearchPage(true));
+        }
+        dispatch(toggleGPTSearchView(false));
+    };
+
+    const handleLogoClick = () => {
+        dispatch(showSearchPage(false));
+        dispatch(toggleGPTSearchView(false));
+    };
+
     return (
         <div
-            className={`absolute pl-6  py-2 z-20 w-full  flex justify-between  bg-gradient-to-b from-black`}
+            className={`absolute pl-6  py-2 z-40 w-full  flex justify-between  bg-gradient-to-b from-black`}
         >
             <img
                 className={`w-48 ${user ? 'cursor-pointer' : ''}`}
                 src={LOGO}
                 alt='logo'
-                onClick={() => user && navigate('/browse')}
+                onClick={handleLogoClick}
             />
 
             {user && (
@@ -84,6 +109,21 @@ const Header = () => {
                             Welcome, {auth.currentUser.displayName}!
                         </p>
                     )}
+                    {!searchPage ? (
+                        <img
+                            src={search}
+                            alt='search'
+                            className='h-12 cursor-pointer ml-2 hover:scale-110'
+                            onClick={handleSearchBtn}
+                        />
+                    ) : (
+                        <button
+                            className='bg-white py-2 mx-3 rounded-md text-black transition duration-300 px-3 hover:bg-slate-100'
+                            onClick={handleSearchBtn}
+                        >
+                            Back
+                        </button>
+                    )}
                     <button
                         className={`bg-white py-2 mx-3 rounded-md text-black hover:bg-slate-100 transition duration-300 flex ${showGPTSearch ? 'px-3' : 'pr-3'}`}
                         onClick={handleGPTSearchClick}
@@ -95,7 +135,9 @@ const Header = () => {
                                 className='w-10'
                             />
                         )}
-                        {showGPTSearch ? 'Back To Movies' : 'GPT Search'}
+                        {showGPTSearch && !searchPage
+                            ? 'Back To Movies'
+                            : 'GPT Search'}
                     </button>
                     <button
                         className='px-4 py-2 mr-8 rounded-md shadow-md hover:bg-red-600 transition duration-300 bg-red-700'

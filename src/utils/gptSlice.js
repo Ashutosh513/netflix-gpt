@@ -6,8 +6,8 @@ const gptSlice = createSlice({
         showGPTSearch: false,
     },
     reducers: {
-        toggleGPTSearchView: (state) => {
-            state.showGPTSearch = !state.showGPTSearch;
+        toggleGPTSearchView: (state, actions) => {
+            state.showGPTSearch = actions.payload;
         },
     },
 });

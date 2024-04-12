@@ -13,6 +13,8 @@ import { updateProfile } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import { MAIN_BG } from '../utils/constants';
+import useOnlineStatus from '../utils/useOnlineStatus';
+import UserOffline from './UserOffline';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -20,11 +22,16 @@ const Login = () => {
     const [showOrHidePassword, setShowOrHidePassword] = useState('SHOW');
     const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    let knowMore = false;
     let showBtn = useRef('SHOW');
     const fullName = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
+
+    const onlineStatus = useOnlineStatus();
+
+    if (!onlineStatus) {
+        return <UserOffline />;
+    }
 
     const handleButtonClick = () => {
         // Validate the form data
@@ -94,7 +101,7 @@ const Login = () => {
     };
 
     const toggleSignInForm = () => {
-        showBtn.current.classList.add('hidden');
+        showBtn.current?.classList.add('hidden');
         setShowOrHidePassword('SHOW');
         setIsSignInForm(!isSignInForm);
         setErrorMessage('');
@@ -112,7 +119,7 @@ const Login = () => {
             <div>
                 <form
                     onSubmit={(e) => e.preventDefault()}
-                    className='absolute w-[400px] p-14 mt-24 text-white bg-opacity-80 rounded-md bg-black mx-auto left-0 right-0 text-basic'
+                    className='absolute w-[400px] p-14 mt-24 text-white bg-opacity-80 rounded-md bg-black mx-auto left-0 right-0 text-basic max-h-[600px]'
                 >
                     <h1 className='text-3xl font-medium mb-8'>
                         Sign {isSignInForm ? 'In' : 'Up'}
@@ -193,10 +200,6 @@ const Login = () => {
                         Sign {isSignInForm ? 'In' : 'Up'}
                     </button>
                     <label className='flex items-center my-2 text-gray-300'>
-                        <div className={`${isSignInForm ? '' : 'hidden'}`}>
-                            <input type='checkbox' />
-                            <span className='text-xs mx-1'>Remember me</span>
-                        </div>
                         <a
                             href='https://help.netflix.com/en/'
                             className='text-xs ml-auto hover:underline'
@@ -210,10 +213,13 @@ const Login = () => {
                     <FormDisclaimer
                         isSignInForm={isSignInForm}
                         toggleSignInForm={toggleSignInForm}
-                        knowMore={knowMore}
                     />
                 </form>
-                <img src={MAIN_BG} alt='Movies' className='object-cover' />
+                <img
+                    src={MAIN_BG}
+                    alt='Movies'
+                    className='object-cover h-[700px] w-full'
+                />
             </div>
             <Footer />
         </div>
