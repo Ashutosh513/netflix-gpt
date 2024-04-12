@@ -21,7 +21,6 @@ const MovieDetails = () => {
     const runtimeInMinutes = movie?.runtime;
     const hours = Math.floor(runtimeInMinutes / 60);
     const minutes = runtimeInMinutes % 60;
-    console.log(movie);
 
     const castDetails = async () => {
         const cast = await fetch(
@@ -42,7 +41,6 @@ const MovieDetails = () => {
         );
         const video = filterData ? filterData[0] : json.results[0];
         setMovieVideoKey(video?.key);
-        console.log(movieVideoKey);
     };
 
     const handleOverlay = () => {

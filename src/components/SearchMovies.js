@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 const SearchMovies = () => {
     const movies = useSelector((store) => store.search.searchMovies);
-    console.log(movies);
 
     return (
         <div className='w-screen z-40 min-h-96'>

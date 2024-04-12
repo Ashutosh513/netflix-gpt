@@ -13,7 +13,6 @@ const MovieCard = ({ movie }) => {
             API_OPTIONS
         );
         const details = await newDetails.json();
-        console.log('details');
         dispatch(addMovieDetails(details));
         dispatch(addShowMovieDetails(true));
     };

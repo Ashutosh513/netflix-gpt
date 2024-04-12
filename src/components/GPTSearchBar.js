@@ -20,7 +20,6 @@ const GPTSearchBar = () => {
         const response = await result.response;
         const text = response.text();
         const lines = text.split('\n');
-        console.log(response);
         setMessage(lines);
         setShowMessage(true);
     };
