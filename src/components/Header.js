@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../utils/firebase';
-import { useSelector } from 'react-redux';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
-import { LOGO } from '../utils/constants';
 import { toggleGPTSearchView } from '../utils/gptSlice';
-import { LANG_ISO } from '../utils/languageConstants';
 import { changeLanguage } from '../utils/languageSlice';
-import search from '../utils/Img/search_icon.png';
 import { showSearchPage } from '../utils/searchMoviesSlice';
+import { LOGO } from '../utils/constants';
+import { LANG_ISO } from '../utils/languageConstants';
+import search from '../utils/Img/search_icon.png';
 
 const Header = () => {
     const user = useSelector((store) => store.user);

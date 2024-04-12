@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { lang } from '../utils/languageConstants';
 import { useSelector } from 'react-redux';
-import { useRef } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { AI_API_KEY } from '../utils/constants';
-import { useState } from 'react';
 
 const GPTSearchBar = () => {
     const current_ISO = useSelector((store) => store.lang.currentLang);

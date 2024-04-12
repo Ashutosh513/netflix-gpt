@@ -1,20 +1,19 @@
-import React from 'react';
-import Header from './Header';
-import Footer from './Footer';
-import FormDisclaimer from './FormDisclaimer';
-import { useRef, useState } from 'react';
-import { checkValidData } from '../utils/validate';
+import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { auth } from '../utils/firebase';
 import {
+    updateProfile,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth } from '../utils/firebase';
-import { updateProfile } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
-import { MAIN_BG } from '../utils/constants';
 import useOnlineStatus from '../utils/useOnlineStatus';
+import Header from './Header';
+import Footer from './Footer';
+import FormDisclaimer from './FormDisclaimer';
 import UserOffline from './UserOffline';
+import { MAIN_BG } from '../utils/constants';
+import { checkValidData } from '../utils/validate';
 
 const Login = () => {
     const dispatch = useDispatch();

@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import useOnlineStatus from '../utils/useOnlineStatus';
 import useUpcomingMovies from '../hooks/useUpcomingMovies';
 import useTopRatedMovies from '../hooks/useTopRatedMovies';
 import usePopularMovies from '../hooks/usePopularMovies';
@@ -6,12 +9,9 @@ import Header from './Header';
 import MainContainer from './MainContainer';
 import SecondaryContainer from './SecondaryContainer';
 import GPTSearchPage from './GPTSearchPage';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import MovieDetails from './MovieDetails';
 import Footer from './Footer';
 import SearchPage from './SearchPage';
-import useOnlineStatus from '../utils/useOnlineStatus';
 import UserOffline from './UserOffline';
 
 const Browse = () => {
