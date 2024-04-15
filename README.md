@@ -57,6 +57,3 @@
 -   NetflixGPT
     -   Search Bar
     -   Movie Suggestions
-
-bahut nazdeek se dekha hai iss duniya ko
-tabhi sabse dur jaake baitha hoon
